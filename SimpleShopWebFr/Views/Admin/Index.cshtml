@@ -1,8 +1,19 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/_ViewStart.cshtml";
 }
 
 <h2>Index</h2>
-
+<form role="form" action="@Url.Action("LoginDeal")" method="post">
+    <div class="form-group">
+        <input type="text" name="username" class="form-control" placeholder="UserName" />
+    </div>
+    <div class="form-group">
+        <input type="password" name="passwd" class="form-control" placeholder="Password" />
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-default" value="Login" />
+        <input type="reset" class="btn btn-warning" value="Reset" />&nbsp;
+        <a href="@Url.Action("Register")" class="text-info">Register?</a>
+    </div>
+</form>

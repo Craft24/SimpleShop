@@ -1,11 +1,15 @@
-﻿namespace SimpleShopWebFr.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SimpleShopWebFr.Models
 {
     public class StandardAddress : MyObject
     {
-        public string ProvinceName { get; set; }
+        [Required]
+        public virtual string ProvinceName { get; set; }
 
-        public string CityName { get; set; }
+        [Required]
+        public virtual string CityName { get; set; }
 
-        public string AreaName { get; set; }
+        public virtual string AreaName { get; set; }
     }
 }

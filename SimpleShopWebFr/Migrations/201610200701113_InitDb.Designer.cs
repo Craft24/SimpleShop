@@ -7,13 +7,13 @@ namespace SimpleShopWebFr.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitCreateDb : IMigrationMetadata
+    public sealed partial class InitDb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitCreateDb));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDb));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610191618496_InitCreateDb"; }
+            get { return "201610200701113_InitDb"; }
         }
         
         string IMigrationMetadata.Source

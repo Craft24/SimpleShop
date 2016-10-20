@@ -3,7 +3,7 @@ namespace SimpleShopWebFr.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitCreateDb : DbMigration
+    public partial class InitDb : DbMigration
     {
         public override void Up()
         {
@@ -12,12 +12,14 @@ namespace SimpleShopWebFr.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(unicode: false),
-                        Passwd = c.String(unicode: false),
+                        Status = c.Int(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 20, storeType: "nvarchar"),
+                        Passwd = c.String(nullable: false, unicode: false),
+                        Salt = c.String(nullable: false, unicode: false),
                         QQ = c.String(unicode: false),
                         TelPhone = c.String(unicode: false),
-                        CellPhone = c.String(unicode: false),
-                        Sex = c.Boolean(nullable: false),
+                        CellPhone = c.String(nullable: false, unicode: false),
+                        Sex = c.Int(nullable: false),
                         CreateDateTime = c.DateTime(nullable: false, precision: 0),
                         IsDeleted = c.Boolean(nullable: false),
                         DeleteDateTime = c.DateTime(nullable: false, precision: 0),
@@ -32,11 +34,13 @@ namespace SimpleShopWebFr.Migrations
                         Flag = c.Boolean(nullable: false),
                         Amount = c.Int(nullable: false),
                         BillDescription = c.String(unicode: false),
-                        CreateDate = c.DateTime(nullable: false, precision: 0),
-                        Member_Id = c.Int(),
+                        CreateDateTime = c.DateTime(nullable: false, precision: 0),
+                        IsDeleted = c.Boolean(nullable: false),
+                        DeleteDateTime = c.DateTime(nullable: false, precision: 0),
+                        Member_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Members", t => t.Member_Id)
+                .ForeignKey("dbo.Members", t => t.Member_Id, cascadeDelete: true)
                 .Index(t => t.Member_Id);
             
             CreateTable(
@@ -44,12 +48,14 @@ namespace SimpleShopWebFr.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(unicode: false),
-                        Passwd = c.String(unicode: false),
+                        Level = c.Int(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 20, storeType: "nvarchar"),
+                        Passwd = c.String(nullable: false, unicode: false),
+                        Salt = c.String(nullable: false, unicode: false),
                         QQ = c.String(unicode: false),
                         TelPhone = c.String(unicode: false),
-                        CellPhone = c.String(unicode: false),
-                        Sex = c.Boolean(nullable: false),
+                        CellPhone = c.String(nullable: false, unicode: false),
+                        Sex = c.Int(nullable: false),
                         CreateDateTime = c.DateTime(nullable: false, precision: 0),
                         IsDeleted = c.Boolean(nullable: false),
                         DeleteDateTime = c.DateTime(nullable: false, precision: 0),
@@ -61,7 +67,7 @@ namespace SimpleShopWebFr.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        CategoryName = c.String(unicode: false),
+                        CategoryName = c.String(nullable: false, unicode: false),
                         Description = c.String(unicode: false),
                         ParentId = c.Int(nullable: false),
                         CreateDateTime = c.DateTime(nullable: false, precision: 0),
@@ -76,10 +82,15 @@ namespace SimpleShopWebFr.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Balance = c.Int(nullable: false),
-                        Member_Id = c.Int(),
+                        AlipayAccount = c.String(unicode: false),
+                        WechatPayAccount = c.String(unicode: false),
+                        CreateDateTime = c.DateTime(nullable: false, precision: 0),
+                        IsDeleted = c.Boolean(nullable: false),
+                        DeleteDateTime = c.DateTime(nullable: false, precision: 0),
+                        Member_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Members", t => t.Member_Id)
+                .ForeignKey("dbo.Members", t => t.Member_Id, cascadeDelete: true)
                 .Index(t => t.Member_Id);
             
             CreateTable(
@@ -88,13 +99,15 @@ namespace SimpleShopWebFr.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         OrderStatus = c.Int(nullable: false),
+                        Amount = c.Int(nullable: false),
+                        Status = c.Int(nullable: false),
                         CreateDateTime = c.DateTime(nullable: false, precision: 0),
                         IsDeleted = c.Boolean(nullable: false),
                         DeleteDateTime = c.DateTime(nullable: false, precision: 0),
-                        Member_Id = c.Int(),
+                        Member_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Members", t => t.Member_Id)
+                .ForeignKey("dbo.Members", t => t.Member_Id, cascadeDelete: true)
                 .Index(t => t.Member_Id);
             
             CreateTable(
@@ -102,17 +115,17 @@ namespace SimpleShopWebFr.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        ProductName = c.String(unicode: false),
+                        ProductName = c.String(nullable: false, unicode: false),
                         UnitPrice = c.Int(nullable: false),
                         ProductDescription = c.String(unicode: false),
                         CreateDateTime = c.DateTime(nullable: false, precision: 0),
                         IsDeleted = c.Boolean(nullable: false),
                         DeleteDateTime = c.DateTime(nullable: false, precision: 0),
-                        Category_Id = c.Int(),
+                        Category_Id = c.Int(nullable: false),
                         Order_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Categories", t => t.Category_Id)
+                .ForeignKey("dbo.Categories", t => t.Category_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Orders", t => t.Order_Id)
                 .Index(t => t.Category_Id)
                 .Index(t => t.Order_Id);
@@ -122,9 +135,9 @@ namespace SimpleShopWebFr.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        PhotoUrl = c.String(unicode: false),
+                        PhotoUrl = c.String(nullable: false, unicode: false),
                         SortNum = c.Int(nullable: false),
-                        ThumbPhotoUrl = c.String(unicode: false),
+                        ThumbPhotoUrl = c.String(nullable: false, unicode: false),
                         CreateDateTime = c.DateTime(nullable: false, precision: 0),
                         IsDeleted = c.Boolean(nullable: false),
                         DeleteDateTime = c.DateTime(nullable: false, precision: 0),
@@ -139,19 +152,19 @@ namespace SimpleShopWebFr.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        ReceivePerson = c.String(unicode: false),
-                        CellPhone = c.String(unicode: false),
-                        LastAddress = c.String(unicode: false),
+                        ReceivePerson = c.String(nullable: false, unicode: false),
+                        CellPhone = c.String(nullable: false, unicode: false),
+                        LastAddress = c.String(nullable: false, unicode: false),
                         OtherDesc = c.String(unicode: false),
                         CreateDateTime = c.DateTime(nullable: false, precision: 0),
                         IsDeleted = c.Boolean(nullable: false),
                         DeleteDateTime = c.DateTime(nullable: false, precision: 0),
-                        Member_Id = c.Int(),
-                        StandardAddress_Id = c.Int(),
+                        Member_Id = c.Int(nullable: false),
+                        StandardAddress_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Members", t => t.Member_Id)
-                .ForeignKey("dbo.StandardAddresses", t => t.StandardAddress_Id)
+                .ForeignKey("dbo.Members", t => t.Member_Id, cascadeDelete: true)
+                .ForeignKey("dbo.StandardAddresses", t => t.StandardAddress_Id, cascadeDelete: true)
                 .Index(t => t.Member_Id)
                 .Index(t => t.StandardAddress_Id);
             
@@ -160,8 +173,8 @@ namespace SimpleShopWebFr.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        ProvinceName = c.String(unicode: false),
-                        CityName = c.String(unicode: false),
+                        ProvinceName = c.String(nullable: false, unicode: false),
+                        CityName = c.String(nullable: false, unicode: false),
                         AreaName = c.String(unicode: false),
                         CreateDateTime = c.DateTime(nullable: false, precision: 0),
                         IsDeleted = c.Boolean(nullable: false),

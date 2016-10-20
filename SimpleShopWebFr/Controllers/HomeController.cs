@@ -11,15 +11,7 @@ namespace SimpleShopWebFr.Controllers
     {
         public ActionResult Index()
         {
-            SimpleShopDbContext db = new SimpleShopDbContext();
-            Admin admin = new Admin();
-            admin.CellPhone = "13283888062";
-            admin.Name = "admin";
-            admin.Passwd = "admin";
-            db.Admins.Add(admin);
-            db.SaveChanges();
-            var adminobj = db.Admins.FirstOrDefault();
-            return View(adminobj);
+            return View();
         }
 
         public ActionResult About()
