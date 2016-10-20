@@ -11,6 +11,8 @@ namespace SimpleShopWebFr.Models
 
         public virtual string Passwd { get; set; }
 
+        public virtual string Salt { get; set; }
+
         public virtual string QQ { get; set; }
 
         public virtual string TelPhone { get; set; }

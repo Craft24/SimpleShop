@@ -26,6 +26,9 @@ namespace SimpleShopWebFr.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            context.Admins.AddOrUpdate(
+                new Models.Admin { Name="admin",Passwd=Hash}
+                );
         }
     }
 }
