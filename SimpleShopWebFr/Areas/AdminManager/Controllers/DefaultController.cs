@@ -4,24 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace SimpleShopWebFr.Controllers
+namespace SimpleShopWebFr.Areas.AdminManager.Controllers
 {
-    public class AdminController : Controller
+    public class DefaultController : Controller
     {
-        // GET: Admin
+        // GET: AdminManager/Default
         public ActionResult Index()
         {
             return View();
         }
 
-        public void LoginDeal()
+        [HttpPost]
+        public void Login()
         {
-            string username=Request.Form["username"].ToString();
-            string passwd = Request.Form["passwd"].ToString();
+            string username = Request.Form["username"].ToString();
+            string passwd = Request.Form["password"].ToString();
             using (var db = new Models.SimpleShopDbContext())
             {
-                var admin=db.Admins.FirstOrDefault(p => p.Name == username);
-                if (admin!=null)
+                var admin = db.Admins.FirstOrDefault(p => p.Name == username);
+                if (admin != null)
                 {
                     byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(passwd + admin.Salt);
                     byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
@@ -30,7 +31,7 @@ namespace SimpleShopWebFr.Controllers
                     if (hashString == admin.Passwd)
                     {
                         // user login successfully 
-                        Response.Redirect("/Admin/Main");
+                        Response.Redirect("/AdminManager/Default/Main");
                     }
                     else
                     {
@@ -39,7 +40,7 @@ namespace SimpleShopWebFr.Controllers
                 }
                 else
                 {
-                    Response.Redirect("Admin/Index");
+                    Response.Redirect("/AdminManager/Default/Index");
                 }
             }
         }
@@ -62,8 +63,8 @@ namespace SimpleShopWebFr.Controllers
             using (var db = new Models.SimpleShopDbContext())
             {
                 var admin = db.Admins.Add(new Models.Admin { Name = username, Passwd = hashString, CellPhone = "13283888062", Salt = salt });
-                var rs=db.SaveChanges();
-                if (rs>0)
+                var rs = db.SaveChanges();
+                if (rs > 0)
                 {
                     Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(admin));
                 }
